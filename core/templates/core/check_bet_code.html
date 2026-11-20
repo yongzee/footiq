@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FootIQ | Betslip &amp; Fixtures</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 25px 15px;
+            background: #0b1424;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 1120px;
+            margin: 25px auto;
+        }
+
+        .header { margin-bottom: 25px; }
+
+        .brand {
+            color: #31d69b;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .panel {
+            background: #142238;
+            padding: 24px;
+            border-radius: 13px;
+            margin-bottom: 20px;
+        }
+
+        h2 { margin-top: 0; }
+
+        label {
+            display: block;
+            margin: 16px 0 8px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 16px;
+            cursor: pointer;
+            color: #dce6f2;
+        }
+
+        input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+            transform: scale(1.15);
+            cursor: pointer;
+        }
+
+        input[type="text"], input[type="search"], select {
+            width: 100%;
+            padding: 14px;
+            background: #0b1424;
+            color: white;
+            border: 1px solid #34465e;
+            border-radius: 8px;
+        }
+
+        input[type="search"]:focus,
+        input[type="text"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #31d69b;
+        }
+
+        button.primary-btn {
+            width: 100%;
+            margin-top: 20px;
+            padding: 15px;
+            background: #31d69b;
+            color: #071c17;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button.primary-btn:hover {
+            background: #28c28b;
+        }
+
+        .error {
+            padding: 14px;
+            background: #49232a;
+            color: #ffb8c0;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .stat {
+            background: #0b1424;
+            padding: 14px 16px;
+            border-radius: 9px;
+        }
+
+        .stat small {
+            display: block;
+            color: #9aabc0;
+            margin-bottom: 6px;
+        }
+
+        .stat strong {
+            font-size: 20px;
+            color: #31d69b;
+        }
+
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 14px;
+            border: 1px solid #26364b;
+            border-radius: 9px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 13px;
+            background: #0b1424;
+        }
+
+        thead {
+            background: #0f1b2e;
+            color: #9aabc0;
+            font-size: 11.5px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        th, td {
+            padding: 12px 13px;
+            border-bottom: 1px solid #1e2d42;
+            vertical-align: top;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: #111f35;
+        }
+
+        .selection, .accent {
+            color: #31d69b;
+            font-weight: bold;
+        }
+
+        .odds-cell, .match-title {
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .sub-meta {
+            color: #9aabc0;
+            font-size: 12px;
+            line-height: 1.45;
+            margin-top: 3px;
+        }
+
+        .metric-list {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            font-size: 12.5px;
+            color: #dce6f2;
+            white-space: nowrap;
+        }
+
+        .status {
+            display: inline-block;
+            background: #234a3c;
+            color: #9cf1ce;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .draw-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #3b2f13;
+            color: #ffd166;
+            border: 1px solid #7a5c1b;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .muted { color: #9aabc0; }
+
+        /* Batch Dropdowns */
+        .batch-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .batch-toolbar h2 { margin: 0; }
+
+        .toolbar-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-small {
+            background: #0b1424;
+            color: #b7c4d6;
+            border: 1px solid #34465e;
+            padding: 7px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .btn-small:hover {
+            border-color: #31d69b;
+            color: #31d69b;
+        }
+
+        details.slip-dropdown {
+            background: #0f1b2e;
+            border: 1px solid #2b3d54;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        details.slip-dropdown[open] {
+            border-color: #31d69b;
+        }
+
+        details.slip-dropdown summary {
+            list-style: none;
+            padding: 15px 18px;
+            cursor: pointer;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            user-select: none;
+        }
+
+        details.slip-dropdown summary::-webkit-details-marker {
+            display: none;
+        }
+
+        details.slip-dropdown summary:hover {
+            background: #14233b;
+        }
+
+        .summary-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chevron {
+            display: inline-block;
+            color: #31d69b;
+            font-size: 12px;
+            transition: transform 0.2s ease;
+        }
+
+        details.slip-dropdown[open] .chevron {
+            transform: rotate(90deg);
+        }
+
+        .code-badge {
+            font-family: monospace;
+            font-size: 15px;
+            font-weight: bold;
+            background: #0b1424;
+            color: #31d69b;
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid #26364b;
+        }
+
+        .summary-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 14px;
+            font-size: 13px;
+            color: #b7c4d6;
+        }
+
+        .dropdown-body {
+            padding: 0 18px 18px;
+            border-top: 1px solid #223247;
+        }
+
+        .meta-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 12px;
+            font-size: 13px;
+            color: #9aabc0;
+        }
+
+        /* Fixtures Tabs & Search */
+        .tabs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .tabs a {
+            text-align: center;
+            padding: 11px 8px;
+            text-decoration: none;
+            color: #c3d0df;
+            background: #0b1424;
+            border-radius: 8px;
+            font-size: 13.5px;
+        }
+
+        .tabs a.active {
+            background: #31d69b;
+            color: #071c17;
+            font-weight: bold;
+        }
+
+        .fixture-search-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 12px;
+        }
+
+        .fixture-search-row input[type="search"] {
+            padding: 12px 14px;
+            font-size: 13.5px;
+        }
+
+        .fixture-meta-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .no-search-match {
+            padding: 20px;
+            text-align: center;
+            color: #9aabc0;
+            background: #0b1424;
+            border: 1px solid #26364b;
+            border-radius: 9px;
+            margin-top: 14px;
+            display: none;
+        }
+
+        @media(max-width: 600px) {
+            .summary { grid-template-columns: 1fr; }
+            .tabs { grid-template-columns: repeat(2, 1fr); }
+            .panel { padding: 18px; }
+            th, td { padding: 10px; font-size: 12.5px; }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <div class="brand">FootIQ</div>
+        <p class="muted">Football intelligence, betslip analysis &amp; fixtures</p>
+    </div>
+
+    <div class="panel">
+        <h2>Retrieve Betslip</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="fixture_type" value="{{ selected_fixture_type|default:'today' }}">
+
+            <label>Bookmaker</label>
+            <select name="bookmaker" required>
+                <option value="" {% if not request.POST.bookmaker %}selected{% endif %}>Select bookmaker</option>
+                <option value="sportybet" {% if request.POST.bookmaker == "sportybet" %}selected{% endif %}>SportyBet</option>
+                <option value="bet9ja" {% if request.POST.bookmaker == "bet9ja" %}selected{% endif %}>Bet9ja</option>
+            </select>
+
+            <label>Booking code or prefix</label>
+            <input type="text"
+                   name="code"
+                   value="{{ request.POST.code|default:'' }}"
+                   placeholder="Enter booking code (e.g. t57w20 or prefix t57w2)"
+                   required>
+
+            <label class="checkbox-label">
+                <input type="checkbox"
+                       name="scan_mode"
+                       {% if request.POST.scan_mode %}checked{% endif %}>
+                <span>Iterate last character (36 variations: q–0)</span>
+            </label>
+
+            <button type="submit" class="primary-btn">Retrieve Betslip</button>
+        </form>
+
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+    </div>
+
+    {% if result %}
+
+    <div class="panel">
+        <h2>Betslip Overview</h2>
+
+        <p>
+            {{ result.bookmaker.name }}
+            <span class="status">{{ result.status }}</span>
+        </p>
+
+        <div class="summary">
+            <div class="stat">
+                <small>Total selections</small>
+                <strong>{{ result.selections|length }}</strong>
+            </div>
+            <div class="stat">
+                <small>Total odds</small>
+                <strong>{{ result.total_odds|default:"N/A" }}</strong>
+            </div>
+            <div class="stat">
+                <small>Active odds</small>
+                <strong>{{ result.active_odds|default:"N/A" }}</strong>
+            </div>
+        </div>
+
+        <div class="meta-bar">
+            <span>Booking code: <strong style="color:#fff;">{{ result.code }}</strong></span>
+            <span>Stake: {{ result.stake|default:"Not available" }}</span>
+            <span>Potential payout: {{ result.potential_payout|default:"Not available" }}</span>
+        </div>
+    </div>
+
+    <div class="panel">
+        <h2>Match Selections</h2>
+
+        {% if result.selections %}
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Match</th>
+                        <th>Market</th>
+                        <th>Selection</th>
+                        <th>Odds</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in result.selections %}
+                    <tr>
+                        <td class="muted">{{ forloop.counter }}</td>
+                        <td><strong>{{ item.match }}</strong></td>
+                        <td>{{ item.market }}</td>
+                        <td class="selection">{{ item.selection }}</td>
+                        <td class="odds-cell">{{ item.odds }}</td>
+                        <td class="muted">{{ item.start_time|default:"N/A" }}</td>
+                        <td><span class="status">{{ item.status }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+            <p class="muted">No selections were returned.</p>
+        {% endif %}
+    </div>
+
+    {% endif %}
+
+    {% if batch_results %}
+
+    <div class="panel">
+        <div class="batch-toolbar">
+            <h2>Scan Results ({{ batch_results|length }} found)</h2>
+            <div class="toolbar-actions">
+                <button type="button" class="btn-small" onclick="toggleAllSlips(true)">Expand All</button>
+                <button type="button" class="btn-small" onclick="toggleAllSlips(false)">Collapse All</button>
+            </div>
+        </div>
+
+        {% for slip in batch_results %}
+
+            <details class="slip-dropdown" {% if forloop.first %}open{% endif %}>
+                <summary>
+                    <div class="summary-left">
+                        <span class="chevron">&#9654;</span>
+                        <span class="code-badge">{{ slip.code }}</span>
+                        <span class="muted">{{ slip.bookmaker.name }}</span>
+                    </div>
+
+                    <div class="summary-meta">
+                        {% if slip.has_draw %}
+                            <span class="draw-badge" title="Contains one or more draw selections">⚖ Has Draw</span>
+                        {% endif %}
+                        <span>Selections: <strong style="color:#fff;">{{ slip.selections|length }}</strong></span>
+                        <span>Odds: <strong style="color:#31d69b;">{{ slip.total_odds|default:"N/A" }}</strong></span>
+                        <span class="status">{{ slip.status }}</span>
+                    </div>
+                </summary>
+
+                <div class="dropdown-body">
+                    <div class="summary">
+                        <div class="stat">
+                            <small>Total selections</small>
+                            <strong>{{ slip.selections|length }}</strong>
+                        </div>
+                        <div class="stat">
+                            <small>Total odds</small>
+                            <strong>{{ slip.total_odds|default:"N/A" }}</strong>
+                        </div>
+                        <div class="stat">
+                            <small>Active odds</small>
+                            <strong>{{ slip.active_odds|default:"N/A" }}</strong>
+                        </div>
+                    </div>
+
+                    <div class="meta-bar">
+                        <span>Stake: {{ slip.stake|default:"Not available" }}</span>
+                        <span>Potential payout: {{ slip.potential_payout|default:"Not available" }}</span>
+                    </div>
+
+                    {% if slip.selections %}
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Match</th>
+                                    <th>Market</th>
+                                    <th>Selection</th>
+                                    <th>Odds</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in slip.selections %}
+                                <tr>
+                                    <td class="muted">{{ forloop.counter }}</td>
+                                    <td><strong>{{ item.match }}</strong></td>
+                                    <td>{{ item.market }}</td>
+                                    <td class="selection">{{ item.selection }}</td>
+                                    <td class="odds-cell">{{ item.odds }}</td>
+                                    <td class="muted">{{ item.start_time|default:"N/A" }}</td>
+                                    <td><span class="status">{{ item.status }}</span></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                        <p class="muted">No selections were returned.</p>
+                    {% endif %}
+                </div>
+            </details>
+
+        {% endfor %}
+    </div>
+
+    {% endif %}
+
+    <!-- Fixtures Table Section -->
+    <div class="panel">
+        <h2>Fixtures Centre</h2>
+
+        <div class="tabs">
+            <a href="?fixture_type=today" class="{% if selected_fixture_type == 'today' %}active{% endif %}">Today</a>
+            <a href="?fixture_type=upcoming" class="{% if selected_fixture_type == 'upcoming' %}active{% endif %}">Upcoming</a>
+            <a href="?fixture_type=live" class="{% if selected_fixture_type == 'live' %}active{% endif %}">Live</a>
+            <a href="?fixture_type=results" class="{% if selected_fixture_type == 'results' %}active{% endif %}">Results</a>
+        </div>
+
+        {% if fixtures_error %}
+            <div class="error">{{ fixtures_error }}</div>
+        {% elif fixtures %}
+            <div class="fixture-search-row">
+                <input type="search"
+                       id="fixtureSearchInput"
+                       placeholder="Search games by team, league, country, or venue..."
+                       oninput="filterFixtures()"
+                       aria-label="Search fixtures">
+                <button type="button" class="btn-small" onclick="clearFixtureSearch()" style="padding: 12px 16px;">
+                    Clear
+                </button>
+            </div>
+
+            <div class="fixture-meta-row">
+                <p class="muted" id="fixtureCountLabel" style="margin: 0;">
+                    Showing {{ fixtures|length }} of {{ fixtures|length }} matches
+                </p>
+            </div>
+
+            <div class="table-wrap" id="fixturesTableWrap">
+                <table id="fixturesTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Match &amp; Info</th>
+                            <th>League &amp; Venue</th>
+                            <th>Date &amp; Status</th>
+                            <th>Match Odds (1X2)</th>
+                            <th>Win Prob.</th>
+                            <th>xG</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for match in fixtures %}
+                        <tr class="fixture-row"
+                            data-search="{{ match.home_team.team_name|lower }} {{ match.away_team.team_name|lower }} {{ match.league.name|lower }} {{ match.league.country|lower }} {{ match.venue.stadium_name|default:''|lower }}">
+                            <td class="muted">{{ forloop.counter }}</td>
+                            <td>
+                                <div class="match-title">
+                                    {{ match.home_team.team_name }} vs {{ match.away_team.team_name }}
+                                </div>
+                                <div class="sub-meta">ID: {{ match.match_id }}</div>
+                            </td>
+                            <td>
+                                <div style="font-weight: bold; color: #dce6f2;">
+                                    {{ match.league.name }}
+                                </div>
+                                <div class="sub-meta">
+                                    {{ match.league.country }}<br>
+                                    Venue: {{ match.venue.stadium_name|default:"Not available" }}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="sub-meta" style="margin-bottom: 5px;">
+                                    {{ match.match_date }}
+                                </div>
+                                <span class="status">{{ match.status_localized }}</span>
+                            </td>
+                            <td>
+                                <div class="metric-list">
+                                    <span>Home: <strong class="accent">{{ match.odds.home_win|default:"N/A" }}</strong></span>
+                                    <span>Draw: <strong>{{ match.odds.draw|default:"N/A" }}</strong></span>
+                                    <span>Away: <strong class="accent">{{ match.odds.away_win|default:"N/A" }}</strong></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="metric-list">
+                                    <span>Home: <strong>{{ match.probabilities.home_win|default:"N/A" }}%</strong></span>
+                                    <span>Draw: <strong>{{ match.probabilities.draw|default:"N/A" }}%</strong></span>
+                                    <span>Away: <strong>{{ match.probabilities.away_win|default:"N/A" }}%</strong></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="metric-list">
+                                    <span>Home: <strong class="accent">{{ match.xg.home|default:"N/A" }}</strong></span>
+                                    <span>Away: <strong class="accent">{{ match.xg.away|default:"N/A" }}</strong></span>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="no-search-match" id="noSearchMatch">
+                No fixtures match your search query.
+            </div>
+        {% else %}
+            <p class="muted">No fixtures were returned for this category.</p>
+        {% endif %}
+    </div>
+
+</div>
+
+<script>
+    function toggleAllSlips(openState) {
+        document.querySelectorAll('details.slip-dropdown').forEach(el => {
+            el.open = openState;
+        });
+    }
+
+    function filterFixtures() {
+        const input = document.getElementById("fixtureSearchInput");
+        const countLabel = document.getElementById("fixtureCountLabel");
+        const tableWrap = document.getElementById("fixturesTableWrap");
+        const noMatchBox = document.getElementById("noSearchMatch");
+        const rows = document.querySelectorAll("tr.fixture-row");
+
+        if (!input || !rows.length) return;
+
+        const query = input.value.trim().toLowerCase();
+        let visibleCount = 0;
+
+        rows.forEach(row => {
+            const haystack = row.getAttribute("data-search") || "";
+            const isMatch = !query || haystack.includes(query);
+            row.style.display = isMatch ? "" : "none";
+            if (isMatch) visibleCount++;
+        });
+
+        if (countLabel) {
+            countLabel.textContent = `Showing ${visibleCount} of ${rows.length} matches`;
+        }
+
+        if (tableWrap && noMatchBox) {
+            tableWrap.style.display = visibleCount > 0 ? "" : "none";
+            noMatchBox.style.display = visibleCount > 0 ? "none" : "block";
+        }
+    }
+
+    function clearFixtureSearch() {
+        const input = document.getElementById("fixtureSearchInput");
+        if (input) {
+            input.value = "";
+            filterFixtures();
+            input.focus();
+        }
+    }
+</script>
+
+</body>
+</html>

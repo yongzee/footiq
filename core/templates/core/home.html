@@ -1,0 +1,306 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Football match analysis and betting risk insights powered by data.">
+
+    <title>FootIQ | Football Intelligence</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #080f1e;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 22px 8%;
+            border-bottom: 1px solid #1d2a40;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span, .hero h1 span {
+            color: #21d49b;
+        }
+
+        .navbar nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        .navbar nav a {
+            color: #b8c2d3;
+            text-decoration: none;
+        }
+
+        .nav-btn {
+            background: #21d49b;
+            color: #07131b;
+            padding: 10px 20px;
+            border-radius: 7px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .hero {
+            padding: 90px 8%;
+            text-align: center;
+            background: radial-gradient(ellipse at top, #142c3d, #080f1e 65%);
+        }
+
+        .hero-content {
+            max-width: 850px;
+            margin: auto;
+        }
+
+        .eyebrow {
+            color: #21d49b;
+            letter-spacing: 3px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .hero h1 {
+            font-size: clamp(38px, 6vw, 65px);
+            line-height: 1.15;
+            margin: 22px 0;
+        }
+
+        .hero-content > p {
+            max-width: 620px;
+            margin: 0 auto 35px;
+            color: #aab6c8;
+        }
+
+        .analysis-card {
+            background: #111d30;
+            border: 1px solid #26364d;
+            border-radius: 15px;
+            padding: 35px;
+            max-width: 520px;
+            margin: auto;
+            text-align: center;
+            box-shadow: 0 15px 50px #0005;
+        }
+
+        .analysis-card h2 {
+            font-size: 23px;
+            margin-bottom: 10px;
+        }
+
+        .analysis-card p {
+            color: #aab6c8;
+            margin-bottom: 25px;
+        }
+
+        .analysis-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: #21d49b;
+            color: #07131b;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        .analysis-btn:hover {
+            background: #16b984;
+        }
+
+        .analysis-card small {
+            display: block;
+            color: #aab6c8;
+            margin-top: 15px;
+            font-size: 12px;
+        }
+
+        .features, .about {
+            padding: 75px 8%;
+            text-align: center;
+        }
+
+        .features h2, .about h2 {
+            font-size: 32px;
+            margin-bottom: 35px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .feature {
+            padding: 30px;
+            border: 1px solid #26364d;
+            border-radius: 12px;
+            background: #111d30;
+        }
+
+        .feature h3 {
+            margin-bottom: 12px;
+            color: #21d49b;
+        }
+
+        .feature p, .about p {
+            color: #aab6c8;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            border-top: 1px solid #1d2a40;
+            color: #8290a5;
+        }
+
+        @media (max-width: 700px) {
+            .navbar {
+                padding: 18px 5%;
+            }
+
+            .navbar nav {
+                display: none;
+            }
+
+            .hero {
+                padding: 65px 5%;
+            }
+
+            .analysis-card {
+                padding: 25px 18px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="navbar">
+    <a href="/" class="logo">Foot<span>IQ</span></a>
+
+    <nav>
+        <a href="#how-it-works">How it works</a>
+        <a href="#about">About</a>
+    </nav>
+
+    <a href="{% url 'check_bet_code' %}" class="nav-btn">
+        Analyse Bet
+    </a>
+</header>
+
+<main>
+
+    <section class="hero">
+        <div class="hero-content">
+
+            <span class="eyebrow">SMARTER FOOTBALL ANALYSIS</span>
+
+            <h1>
+                Don't just place bets.<br>
+                <span>Understand the game.</span>
+            </h1>
+
+            <p>
+                Analyse your football betting selections using
+                match statistics, historical performance and
+                data-driven insights.
+            </p>
+
+            <div class="analysis-card" id="analyse">
+
+                <h2>Ready to analyse your bet?</h2>
+
+                <p>
+                    Retrieve your betting slip and explore
+                    detailed football statistics and risk insights.
+                </p>
+
+                <a href="{% url 'check_bet_code' %}" class="analysis-btn">
+                    Check Booking Code
+                </a>
+
+                <small>
+                    Supports available bookmakers.
+                </small>
+
+            </div>
+
+        </div>
+    </section>
+
+    <section class="features" id="how-it-works">
+
+        <h2>Understand your selections</h2>
+
+        <div class="feature-grid">
+
+            <div class="feature">
+                <h3>Match Analysis</h3>
+                <p>
+                    Examine individual matches using available football data.
+                </p>
+            </div>
+
+            <div class="feature">
+                <h3>Risk Assessment</h3>
+                <p>
+                    Identify selections that may increase your bet's risk.
+                </p>
+            </div>
+
+            <div class="feature">
+                <h3>Statistical Insights</h3>
+                <p>
+                    Explore historical performance and statistical indicators.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="about" id="about">
+
+        <h2>Make informed decisions.</h2>
+
+        <p>
+            Football analysis, statistics and risk insights
+            in one place. Predictions are estimates, not guarantees.
+        </p>
+
+    </section>
+
+</main>
+
+<footer>
+    <p>© 2026 FootIQ. Football intelligence through data.</p>
+</footer>
+
+</body>
+</html>

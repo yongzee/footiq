@@ -1,0 +1,304 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FootIQ | Fixtures Centre</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 25px 15px;
+            background: #0b1424;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: auto;
+        }
+
+        .brand {
+            color: #31d69b;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .panel {
+            background: #142238;
+            padding: 22px;
+            border-radius: 12px;
+            margin: 25px 0;
+        }
+
+        .tabs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .tabs a {
+            text-align: center;
+            padding: 13px 8px;
+            text-decoration: none;
+            color: #c3d0df;
+            background: #0b1424;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .tabs a.active {
+            background: #31d69b;
+            color: #071c17;
+            font-weight: bold;
+        }
+
+        .match {
+            background: #0b1424;
+            padding: 17px;
+            border-radius: 9px;
+            margin-top: 12px;
+        }
+
+        .match h3 {
+            margin: 0 0 12px;
+            font-size: 17px;
+        }
+
+        .details {
+            color: #9aabc0;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .match-section {
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid #263950;
+        }
+
+        .match-section h4 {
+            margin: 0 0 7px;
+            color: #31d69b;
+            font-size: 13px;
+        }
+
+        .odds {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .odds span {
+            background: #142238;
+            padding: 9px 12px;
+            border-radius: 7px;
+            color: #ffffff;
+            font-size: 13px;
+        }
+
+        .empty {
+            padding: 30px 10px;
+            text-align: center;
+            color: #9aabc0;
+        }
+
+        .error {
+            color: #ffb8c0;
+            background: #49232a;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .back {
+            color: #31d69b;
+            text-decoration: none;
+        }
+
+        .back:hover {
+            text-decoration: underline;
+        }
+
+        @media(max-width: 550px) {
+            .tabs {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .panel {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="brand">FootIQ</div>
+    <p>Football Fixtures Centre</p>
+
+    <div class="panel">
+
+        <h2>Explore Matches</h2>
+
+        <div class="tabs">
+
+            <a href="?type=today"
+               class="{% if selected == 'today' %}active{% endif %}">
+                Today
+            </a>
+
+            <a href="?type=upcoming"
+               class="{% if selected == 'upcoming' %}active{% endif %}">
+                Upcoming
+            </a>
+
+            <a href="?type=live"
+               class="{% if selected == 'live' %}active{% endif %}">
+                Live
+            </a>
+
+            <a href="?type=results"
+               class="{% if selected == 'results' %}active{% endif %}">
+                Results
+            </a>
+
+        </div>
+
+        {% if error %}
+
+            <div class="error">
+                {{ error }}
+            </div>
+
+        {% elif matches %}
+
+            <p class="details">
+                {{ matches|length }} matches returned
+            </p>
+
+            {% for match in matches %}
+
+                <div class="match">
+
+                    <h3>
+                        {{ match.home_team.team_name }}
+                        vs
+                        {{ match.away_team.team_name }}
+                    </h3>
+
+                    <div class="details">
+                        <strong>League:</strong>
+                        {{ match.league.name }}
+                        <br>
+
+                        <strong>Country:</strong>
+                        {{ match.league.country }}
+                        <br>
+
+                        <strong>Date:</strong>
+                        {{ match.match_date }}
+                        <br>
+
+                        <strong>Status:</strong>
+                        {{ match.status_localized }}
+                        <br>
+
+                        <strong>Match ID:</strong>
+                        {{ match.match_id }}
+                        <br>
+
+                        <strong>Venue:</strong>
+                        {{ match.venue.stadium_name|default:"Not available" }}
+                    </div>
+
+                    <div class="match-section">
+
+                        <h4>Match Odds</h4>
+
+                        <div class="odds">
+                            <span>
+                                Home: {{ match.odds.home_win|default:"N/A" }}
+                            </span>
+
+                            <span>
+                                Draw: {{ match.odds.draw|default:"N/A" }}
+                            </span>
+
+                            <span>
+                                Away: {{ match.odds.away_win|default:"N/A" }}
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <div class="match-section">
+
+                        <h4>Win Probabilities</h4>
+
+                        <div class="odds">
+                            <span>
+                                Home: {{ match.probabilities.home_win|default:"N/A" }}%
+                            </span>
+
+                            <span>
+                                Draw: {{ match.probabilities.draw|default:"N/A" }}%
+                            </span>
+
+                            <span>
+                                Away: {{ match.probabilities.away_win|default:"N/A" }}%
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <div class="match-section">
+
+                        <h4>Expected Goals (xG)</h4>
+
+                        <div class="odds">
+                            <span>
+                                Home: {{ match.xg.home|default:"N/A" }}
+                            </span>
+
+                            <span>
+                                Away: {{ match.xg.away|default:"N/A" }}
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty">
+                <h3>No matches found</h3>
+                <p>No fixtures were returned for this category.</p>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+    <p>
+        <a class="back" href="{% url 'home' %}">
+            Back to homepage
+        </a>
+    </p>
+
+</div>
+
+</body>
+</html>
